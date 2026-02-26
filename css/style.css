@@ -1,0 +1,560 @@
+/* === Thyme's French Chapter — Warm Botanical Theme === */
+
+:root {
+  --bg-deep: #0f0a1a;
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --bg-card-hover: rgba(255, 255, 255, 0.07);
+  --accent-lavender: #b48eff;
+  --accent-sage: #7ecfa0;
+  --accent-gold: #f0c674;
+  --accent-rose: #e8829b;
+  --accent-warm: #d4a574;
+  --text-primary: #f0ebe3;
+  --text-secondary: rgba(240, 235, 227, 0.6);
+  --text-muted: rgba(240, 235, 227, 0.35);
+  --gradient-main: linear-gradient(135deg, #1a0e2e 0%, #0f1a2e 40%, #0e1f1a 100%);
+  --gradient-accent: linear-gradient(135deg, var(--accent-lavender), var(--accent-sage));
+  --border: rgba(255, 255, 255, 0.06);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--gradient-main);
+  color: var(--text-primary);
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  overflow-x: hidden;
+}
+
+/* === Floating Particles === */
+
+.particle-field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  top: -5%;
+  opacity: 0;
+  animation: float-down linear infinite;
+}
+
+@keyframes float-down {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% { opacity: 0.5; }
+  90% { opacity: 0.2; }
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* === Layout === */
+
+.app {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  padding-top: env(safe-area-inset-top, 1.5rem);
+  padding-bottom: env(safe-area-inset-bottom, 2rem);
+  width: 100%;
+  flex: 1;
+}
+
+/* === Hero === */
+
+.hero {
+  text-align: center;
+  padding: 2rem 0 1.5rem;
+}
+
+.hero-badge {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+  display: inline-block;
+  animation: gentle-bounce 3s ease-in-out infinite;
+}
+
+@keyframes gentle-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 8vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.hero-subtitle {
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+/* === Cards (shared) === */
+
+.countdown-card,
+.message-card,
+.timeline-card,
+.route-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: background 0.3s;
+}
+
+/* === Countdown === */
+
+.countdown-card {
+  padding: 1.5rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.countdown-header {
+  text-align: center;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  font-weight: 500;
+}
+
+.countdown-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.countdown-unit {
+  text-align: center;
+  flex: 1;
+  max-width: 80px;
+}
+
+.countdown-value {
+  background: rgba(180, 142, 255, 0.08);
+  border: 1px solid rgba(180, 142, 255, 0.15);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.25rem;
+  margin-bottom: 0.35rem;
+}
+
+.digit {
+  font-family: var(--font-mono);
+  font-size: clamp(1.5rem, 5.5vw, 2.4rem);
+  font-weight: 600;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.countdown-label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.separator {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  color: var(--accent-lavender);
+  opacity: 0.3;
+  padding-bottom: 1rem;
+  animation: pulse-sep 2s ease-in-out infinite;
+}
+
+@keyframes pulse-sep {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.1; }
+}
+
+/* === Arrived State === */
+
+.arrived {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.arrived-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.arrived-sub {
+  color: var(--text-secondary);
+  font-weight: 300;
+}
+
+/* === Progress Bar === */
+
+.progress-section {
+  margin-top: 1.25rem;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+.progress-track {
+  height: 5px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gradient-accent);
+  border-radius: 3px;
+  transition: width 1s ease;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -2px;
+  width: 7px;
+  height: 7px;
+  background: var(--accent-sage);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent-sage);
+}
+
+/* === Message Card === */
+
+.message-card {
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.rotating-message {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--accent-gold);
+  line-height: 1.5;
+  animation: fade-message 6s ease-in-out infinite;
+}
+
+@keyframes fade-message {
+  0%, 100% { opacity: 0.7; }
+  15%, 85% { opacity: 1; }
+}
+
+/* === Details Grid === */
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.detail-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 1.15rem;
+  text-align: center;
+  transition: transform 0.3s, background 0.3s;
+}
+
+.detail-card:hover {
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+}
+
+.detail-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.detail-title {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 0.2rem;
+  font-weight: 500;
+}
+
+.detail-text {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* === Journey Timeline === */
+
+.timeline-card {
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.timeline-header {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  position: relative;
+}
+
+.step:not(:last-child) {
+  border-bottom: 1px solid var(--border);
+}
+
+.step-icon {
+  font-size: 1.3rem;
+  width: 2rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.step-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.step-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.step-detail {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.1rem;
+}
+
+.step--done .step-title {
+  color: var(--text-secondary);
+}
+
+.step-status {
+  font-size: 0.85rem;
+  color: var(--accent-sage);
+  flex-shrink: 0;
+  width: 1.5rem;
+  text-align: center;
+}
+
+.step-pulse {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--accent-lavender);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(180, 142, 255, 0.4); }
+  50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(180, 142, 255, 0); }
+}
+
+/* === Footer === */
+
+.footer {
+  text-align: center;
+  padding: 1.5rem 1rem 2rem;
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 2rem);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.footer p {
+  margin-bottom: 0.25rem;
+}
+
+.footer-small {
+  font-size: 0.7rem;
+  font-style: italic;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+/* === Ambient Glow === */
+
+.app::before {
+  content: '';
+  position: fixed;
+  top: -30%;
+  left: -20%;
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(circle, rgba(180, 142, 255, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.app::after {
+  content: '';
+  position: fixed;
+  bottom: -30%;
+  right: -20%;
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(circle, rgba(126, 207, 160, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* === Responsive — phones === */
+
+@media (max-width: 380px) {
+  .content {
+    padding: 1rem 0.75rem;
+  }
+
+  .hero {
+    padding: 1.5rem 0 1rem;
+  }
+
+  .hero-badge {
+    font-size: 2rem;
+  }
+
+  .countdown-card {
+    padding: 1.25rem 0.75rem;
+  }
+
+  .countdown-grid {
+    gap: 0.2rem;
+  }
+
+  .countdown-value {
+    padding: 0.5rem 0.15rem;
+  }
+
+  .separator {
+    font-size: 1.2rem;
+  }
+
+  .message-card {
+    padding: 1rem;
+  }
+
+  .rotating-message {
+    font-size: 0.9rem;
+  }
+
+  .timeline-card {
+    padding: 1rem 0.75rem;
+  }
+
+  .step {
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+  }
+
+  .route-card {
+    gap: 0.5rem;
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* iPhone SE and very small screens */
+@media (max-width: 320px) {
+  .countdown-unit {
+    max-width: 56px;
+  }
+
+  .digit {
+    font-size: 1.3rem;
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+  }
+}
+
+/* Larger phones / tablets */
+@media (min-width: 481px) {
+  .content {
+    padding: 2rem 1.5rem;
+  }
+
+  .hero {
+    padding: 3rem 0 2rem;
+  }
+
+  .countdown-card {
+    padding: 2rem 1.5rem;
+  }
+}
